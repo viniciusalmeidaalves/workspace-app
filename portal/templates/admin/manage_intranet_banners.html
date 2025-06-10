@@ -8,8 +8,12 @@
 <main class="admin-container admin-content">
     <div class="admin-form-container">
         <h2>Adicionar Novo Banner</h2>
+<<<<<<< HEAD
         {# ATUALIZADO: Prefixo 'admin' #}
         <form method="POST" action="{{ url_for('admin.manage_intranet_banners') }}" enctype="multipart/form-data">
+=======
+        <form method="POST" enctype="multipart/form-data">
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
             <div class="input-group">
                 <label for="title">Título do Banner (para referência):</label>
                 <input type="text" id="title" name="title">
@@ -50,10 +54,15 @@
                     <td>{{ banner.title }}</td>
                     <td><a href="{{ banner.link_url }}" target="_blank">{{ banner.link_url }}</a></td>
                     <td class="actions">
+<<<<<<< HEAD
                         {# ATUALIZADO: Prefixo 'admin' #}
                         <a href="{{ url_for('admin.edit_intranet_banner', banner_id=banner.id) }}" class="btn-edit">Editar</a>
                         {# ATUALIZADO: Prefixo 'admin' #}
                         <form action="{{ url_for('admin.delete_intranet_banner', banner_id=banner.id) }}" method="POST" onsubmit="return confirm('Tem certeza?');" style="display:inline;">
+=======
+                        <a href="{{ url_for('main.edit_intranet_banner', banner_id=banner.id) }}" class="btn-edit">Editar</a>
+                        <form action="{{ url_for('main.delete_intranet_banner', banner_id=banner.id) }}" method="POST" onsubmit="return confirm('Tem certeza?');" style="display:inline;">
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
                             <button type="submit" class="btn-delete">Deletar</button>
                         </form>
                     </td>

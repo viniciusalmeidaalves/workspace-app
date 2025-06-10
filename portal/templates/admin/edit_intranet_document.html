@@ -8,7 +8,10 @@
 <main class="admin-container admin-content">
     <div class="admin-form-container">
         <h2>Editar Documento</h2>
+<<<<<<< HEAD
         {# ATUALIZADO: Prefixo 'admin' na action implícita #}
+=======
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
         <form method="POST" enctype="multipart/form-data">
             <div class="input-group">
                 <label for="title">Título do Documento:</label>
@@ -26,8 +29,12 @@
                 {% endif %}
             </div>
             <button type="submit">Atualizar Documento</button>
+<<<<<<< HEAD
             {# ATUALIZADO: Prefixo 'admin' #}
             <a href="{{ url_for('admin.manage_intranet_documents') }}" class="btn-secondary">Voltar</a>
+=======
+            <a href="{{ url_for('main.manage_intranet_documents') }}" class="btn-secondary">Voltar</a>
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
         </form>
     </div>
 </main>

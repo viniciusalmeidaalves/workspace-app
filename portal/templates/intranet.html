@@ -14,8 +14,12 @@
     <div class="logo">Intranet</div>
     <div class="user-info">
         <span>Bem-vindo, {{ current_user.username }}!</span>
+<<<<<<< HEAD
         {# ATUALIZADO: De 'main.admin_dashboard' para 'admin.admin_dashboard' #}
         <a href="{{ url_for('admin.admin_dashboard') }}" class="admin-link"><i class="fas fa-user-shield"></i> Painel Admin</a>
+=======
+        <a href="{{ url_for('main.admin_dashboard') }}" class="admin-link"><i class="fas fa-user-shield"></i> Painel Admin</a>
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
         <a href="{{ url_for('main.dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a>
         <a href="{{ url_for('main.logout') }}"><i class="fas fa-sign-out-alt"></i> Sair</a>
     </div>

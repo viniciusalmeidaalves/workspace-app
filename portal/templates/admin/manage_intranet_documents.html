@@ -8,8 +8,12 @@
 <main class="admin-container admin-content">
     <div class="admin-form-container">
         <h2>Fazer Upload de Novo Documento (PDF)</h2>
+<<<<<<< HEAD
         {# ATUALIZADO: Prefixo 'admin' #}
         <form method="POST" action="{{ url_for('admin.manage_intranet_documents') }}" enctype="multipart/form-data">
+=======
+        <form method="POST" action="{{ url_for('main.manage_intranet_documents') }}" enctype="multipart/form-data">
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
             <div class="input-group">
                 <label for="title">Título do Documento:</label>
                 <input type="text" id="title" name="title" required>
@@ -45,12 +49,19 @@
                     <td><a href="{{ url_for('main.serve_document', filename=doc.filename) }}" target="_blank">{{ doc.filename }}</a></td>
                     <td>{{ doc.category }}</td>
                     <td class="actions">
+<<<<<<< HEAD
                         {# ATUALIZADO: Prefixo 'admin' #}
                         <a href="{{ url_for('admin.edit_intranet_document', doc_id=doc.id) }}" class="btn-edit">
                             <i class="fas fa-edit"></i> Editar
                         </a>
                         {# ATUALIZADO: Prefixo 'admin' #}
                         <form action="{{ url_for('admin.delete_intranet_document', doc_id=doc.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este documento? Isso também removerá o arquivo físico.');" style="display:inline;">
+=======
+                        <a href="{{ url_for('main.edit_intranet_document', doc_id=doc.id) }}" class="btn-edit">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <form action="{{ url_for('main.delete_intranet_document', doc_id=doc.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este documento? Isso também removerá o arquivo físico.');" style="display:inline;">
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
                             <button type="submit" class="btn-delete">
                                 <i class="fas fa-trash-alt"></i> Deletar
                             </button>

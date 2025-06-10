@@ -10,13 +10,21 @@
     <div class="user-info">
         <span>Bem-vindo, {{ current_user.username }}!</span>
         
+<<<<<<< HEAD
         <a href="{{ url_for('main.intranet') }}" class="intranet-link">
+=======
+        <a href="{{ url_for('main.intranet') }}" class="intranet-link"> {# NOVO LINK AQUI #}
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
             <i class="fas fa-building"></i> Intranet
         </a>
 
         {% if current_user.is_admin %}
+<<<<<<< HEAD
         {# ATUALIZADO: De 'main.admin_dashboard' para 'admin.admin_dashboard' #}
         <a href="{{ url_for('admin.admin_dashboard') }}" class="admin-link">
+=======
+        <a href="{{ url_for('main.admin_dashboard') }}" class="admin-link">
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
             <i class="fas fa-user-shield"></i> Painel Admin
         </a>
         {% endif %}

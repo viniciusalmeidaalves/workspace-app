@@ -10,6 +10,7 @@
     <h1 class="login-header">Workspace App</h1>
     <div class="login-box">
         <h2> Log On - {{ config.nome_empresa }} </h2>
+<<<<<<< HEAD
         {# AGORA USA O FORMULÁRIO FLASK-WTF #}
         <form class="login-form" method="POST">
             {{ form.hidden_tag() }} {# ESSENCIAL: Proteção CSRF gerada pelo Flask-WTF #}
@@ -32,6 +33,18 @@
                 {{ form.remember_me.label(style="display: inline; margin-left: 5px; color: #ccc;") }} {# Renderiza <label for="remember_me">Lembrar-me</label> #}
             </div>
             {{ form.submit(class="btn btn-primary") }} {# Renderiza <button type="submit">Log On</button> #}
+=======
+        <form class="login-form" method="POST">
+            <div class="input-group">
+                <label for="username">User name:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Log On</button>
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
         </form>
         <div class="register-link">
             <p>Não tem uma conta? <a href="{{ url_for('main.register') }}">Registre-se aqui.</a></p>

@@ -3,21 +3,32 @@
 {% block title %}Gerenciar Aplicações{% endblock %}
 
 {% block page_content %}
+<<<<<<< HEAD
 {# Importa o macro de paginação #}
 {% from 'macros/_pagination_macro.html' import render_pagination %}
 
+=======
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
 <div class="admin-container">
     <header class="admin-header">
         <h1>Gerenciar Aplicações</h1>
         <nav>
+<<<<<<< HEAD
             <a href="{{ url_for('admin.admin_dashboard') }}">Painel Admin</a>
+=======
+            <a href="{{ url_for('main.admin_dashboard') }}">Painel Admin</a>
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
             <a href="{{ url_for('main.dashboard') }}">Voltar para o Dashboard</a>
         </nav>
     </header>
     <main class="admin-content">
         <div class="admin-form-container">
             <h2>Cadastrar Nova Aplicação</h2>
+<<<<<<< HEAD
             <form method="POST" action="{{ url_for('admin.manage_applications') }}" enctype="multipart/form-data">
+=======
+            <form method="POST" enctype="multipart/form-data">
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
                 <input type="text" name="name" placeholder="Nome da Aplicação" required>
                 <input type="url" name="link" placeholder="Link da Aplicação" required>
                 
@@ -51,6 +62,7 @@
                 <tbody>
                     {% for app in applications %}
                     <tr>
+<<<<<<< HEAD
                         <td>
                             {% if app.icon and ('.png' in app.icon or '.jpg' in app.icon or '.jpeg' in app.icon or '.svg' in app.icon or '.gif' in app.icon) %}
                                 <img src="{{ url_for('static', filename=app.icon) }}" alt="{{ app.name }} Icon" class="app-icon-image" style="width: 30px; height: 30px;">
@@ -62,6 +74,13 @@
                         <td>{{ app.link }}</td>
                         <td class="actions">
                             <form action="{{ url_for('admin.delete_application', app_id=app.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar?');">
+=======
+                        <td><i class="{{ app.icon }}"></i></td>
+                        <td>{{ app.name }}</td>
+                        <td>{{ app.link }}</td>
+                        <td>
+                            <form action="{{ url_for('main.delete_application', app_id=app.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar?');">
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
                                 <button type="submit" class="btn-delete">Deletar</button>
                             </form>
                         </td>
@@ -73,10 +92,13 @@
                     {% endfor %}
                 </tbody>
             </table>
+<<<<<<< HEAD
 
             {# CHAMA O MACRO DE PAGINAÇÃO #}
             {{ render_pagination(pagination, 'admin.manage_applications') }}
 
+=======
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
         </div>
     </main>
 </div>

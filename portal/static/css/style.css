@@ -211,6 +211,15 @@ body {
     margin-bottom: 15px;
 }
 
+<<<<<<< HEAD
+=======
+.app-card .app-name {
+    font-weight: 700;
+    margin: 0;
+    font-size: 1em;
+}
+
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
 
 /* --- Estilo do Painel de Administração --- */
 .admin-container {
@@ -567,10 +576,13 @@ body {
     border: 1px solid transparent;
     border-radius: 4px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+<<<<<<< HEAD
     position: relative; /* Adicionado para posicionamento do botão de fechar */
     display: flex; /* Adicionado para alinhar o texto e o botão */
     align-items: center; /* Adicionado para alinhar o texto e o botão verticalmente */
     justify-content: space-between; /* Adicionado para empurrar o botão para a direita */
+=======
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
 }
 
 .alert-success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
@@ -578,6 +590,7 @@ body {
 .alert-warning { color: #856404; background-color: #fff3cd; border-color: #ffeeba; }
 .alert-info { color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb; }
 
+<<<<<<< HEAD
 /* Estilo para o botão de fechar */
 .close-alert {
     background: none;
@@ -621,6 +634,8 @@ body {
     background-color: var(--cor-hover-botao);
 }
 
+=======
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
 /* --- Estilo do Crédito de Desenvolvimento --- */
 .dev-credit {
     position: fixed;
@@ -638,6 +653,7 @@ body {
     border-radius: 3px;
 }
 
+<<<<<<< HEAD
 .dev-credit a:hover { color: rgba(255, 255, 255, 1); }
 
 /* ... (seu CSS existente) ... */
@@ -691,3 +707,6 @@ body {
     border: none;
     cursor: default;
 }
+=======
+.dev-credit a:hover { color: rgba(255, 255, 255, 1); }
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62

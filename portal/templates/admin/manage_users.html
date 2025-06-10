@@ -7,8 +7,12 @@
     <header class="admin-header">
         <h1>Gerenciar Usuários</h1>
         <nav>
+<<<<<<< HEAD
             {# ATUALIZADO: Prefixo 'admin' #}
             <a href="{{ url_for('admin.admin_dashboard') }}">Painel Admin</a> 
+=======
+            <a href="{{ url_for('main.admin_dashboard') }}">Painel Admin</a>
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
             <a href="{{ url_for('main.dashboard') }}">Voltar para o Dashboard</a>
         </nav>
     </header>
@@ -48,10 +52,15 @@
                         <td>{% if user.is_admin %}Sim{% else %}Não{% endif %}</td>
                         <td class="actions">
                             {% if not user.is_admin %}
+<<<<<<< HEAD
                             {# ATUALIZADO: Prefixo 'admin' #}
                             <a href="{{ url_for('admin.edit_user_permissions', user_id=user.id) }}" class="btn-edit">Permissões</a>
                             {# ATUALIZADO: Prefixo 'admin' #}
                             <form action="{{ url_for('admin.delete_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este usuário?');">
+=======
+                            <a href="{{ url_for('main.edit_user_permissions', user_id=user.id) }}" class="btn-edit">Permissões</a>
+                            <form action="{{ url_for('main.delete_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este usuário?');">
+>>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
                                 <button type="submit" class="btn-delete">Deletar</button>
                             </form>
                             {% else %}
