@@ -1,6 +1,10 @@
 # portal/models.py
 
+<<<<<<< HEAD
 from . import db
+=======
+from portal import db
+>>>>>>> 0d0de7605e5a8e82167ee3b5ee539735fda73264
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -11,7 +15,11 @@ user_application_permissions = db.Table('user_application_permissions',
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+<<<<<<< HEAD
     username = db.Column(db.String(80), unique=True, nullable=False)
+=======
+    username = db.Column(db.String(150), unique=True, nullable=False)
+>>>>>>> 0d0de7605e5a8e82167ee3b5ee539735fda73264
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)

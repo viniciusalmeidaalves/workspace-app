@@ -1,10 +1,20 @@
 # portal/routes.py
 
+<<<<<<< HEAD
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, send_from_directory, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from .models import User, Application, UsefulLink, Document, Banner # Adicionado Banner
 from . import db
 from functools import wraps
+=======
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, send_from_directory, jsonify, session
+from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.security import check_password_hash
+from .models import User, Application, UsefulLink, Document, Banner # Adicionado Banner
+from . import db
+from functools import wraps
+from flask import redirect, url_for, session, flash
+>>>>>>> 0d0de7605e5a8e82167ee3b5ee539735fda73264
 import os
 import uuid
 from werkzeug.utils import secure_filename
@@ -25,6 +35,20 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+<<<<<<< HEAD
+=======
+def role_required(role):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if 'user_role' not in session or session['user_role'] != role:
+                flash('Acesso não autorizado.', 'danger')
+                return redirect(url_for('main.dashboard'))  # ajuste para sua rota principal
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
+>>>>>>> 0d0de7605e5a8e82167ee3b5ee539735fda73264
 # --- Helper para validação de upload de arquivo ---
 def allowed_file(filename):
     return '.' in filename and \
