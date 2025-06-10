@@ -1,14 +1,9 @@
 # portal/routes.py
 
-<<<<<<< HEAD
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, send_from_directory, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from .models import User, Application, UsefulLink, Document, Banner # Adicionado Banner
 from . import db
-from functools import wraps
-=======
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, send_from_directory, jsonify, session
-from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash
 from .models import User, Application, UsefulLink, Document, Banner # Adicionado Banner
 from . import db
@@ -16,7 +11,6 @@ from functools import wraps
 from flask import redirect, url_for, session, flash
 >>>>>>> 0d0de7605e5a8e82167ee3b5ee539735fda73264
 import os
-import uuid
 from werkzeug.utils import secure_filename
 import requests
 import json
@@ -36,7 +30,6 @@ def admin_required(f):
     return decorated_function
 
 <<<<<<< HEAD
-=======
 def role_required(role):
     def decorator(f):
         @wraps(f)
@@ -47,7 +40,6 @@ def role_required(role):
             return f(*args, **kwargs)
         return decorated_function
     return decorator
-
 >>>>>>> 0d0de7605e5a8e82167ee3b5ee539735fda73264
 # --- Helper para validação de upload de arquivo ---
 def allowed_file(filename):
@@ -552,3 +544,8 @@ def delete_intranet_banner(banner_id):
     db.session.commit()
     flash('Banner deletado com sucesso!', 'success')
     return redirect(url_for('main.manage_intranet_banners'))
+
+def minha_funcao():
+    print("Versão A")  # ou "Versão B", escolha a correta# Código escolhido após resolver o conflito
+    variavel = 15 # ou 10, ou 20, dependendo da sua decisão
+    
