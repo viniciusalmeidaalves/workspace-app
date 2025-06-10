@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Gerenciar Aplicações{% endblock %}
+
+{% block page_content %}
+{# Importa o macro de paginação #}
+{% from 'macros/_pagination_macro.html' import render_pagination %}
+
+<div class="admin-container">
+    <header class="admin-header">
+        <h1>Gerenciar Aplicações</h1>
+        <nav>
+            <a href="{{ url_for('admin.admin_dashboard') }}">Painel Admin</a>
+            <a href="{{ url_for('main.dashboard') }}">Voltar para o Dashboard</a>
+        </nav>
+    </header>
+    <main class="admin-content">
+        <div class="admin-form-container">
+            <h2>Cadastrar Nova Aplicação</h2>
+            <form method="POST" action="{{ url_for('admin.manage_applications') }}" enctype="multipart/form-data">
+                <input type="text" name="name" placeholder="Nome da Aplicação" required>
+                <input type="url" name="link" placeholder="Link da Aplicação" required>
+                
+                <hr>
+                <p style="text-align:center; margin: 0; color: #555;"><strong>Selecione um Ícone:</strong></p>
+                <hr>
+
+                <div class="icon-input-group">
+                    <input type="text" name="icon_class" id="icon_class" placeholder="Ou digite a classe do ícone aqui">
+                    <button id="open-icon-picker" class="btn-choose-icon">Escolher da Lista</button>
+                </div>
+                
+                <label for="icon_file">Ou faça upload de uma imagem (PNG, JPG, SVG)</label>
+                <input type="file" name="icon_file" id="icon_file" accept="image/*">
+                
+                <button type="submit">Cadastrar</button>
+            </form>
+        </div>
+
+        <div class="admin-table-container">
+            <h2>Aplicações Cadastradas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ícone</th>
+                        <th>Nome</th>
+                        <th>Link</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td>
+                            {% if app.icon and ('.png' in app.icon or '.jpg' in app.icon or '.jpeg' in app.icon or '.svg' in app.icon or '.gif' in app.icon) %}
+                                <img src="{{ url_for('static', filename=app.icon) }}" alt="{{ app.name }} Icon" class="app-icon-image" style="width: 30px; height: 30px;">
+                            {% else %}
+                                <i class="{{ app.icon | default('fas fa-question-circle') }}"></i>
+                            {% endif %}
+                        </td>
+                        <td>{{ app.name }}</td>
+                        <td>{{ app.link }}</td>
+                        <td class="actions">
+                            <form action="{{ url_for('admin.delete_application', app_id=app.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar?');">
+                                <button type="submit" class="btn-delete">Deletar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4">Nenhuma aplicação cadastrada.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {# CHAMA O MACRO DE PAGINAÇÃO #}
+            {{ render_pagination(pagination, 'admin.manage_applications') }}
+
+        </div>
+    </main>
+</div>
+
+<div id="icon-modal" class="icon-modal">
+    <div class="icon-modal-content">
+        <span class="icon-modal-close">&times;</span>
+        <h2>Selecione um Ícone</h2>
+        <input type="search" id="icon-search" placeholder="Buscar ícone pelo nome...">
+        <div id="icon-picker-grid" class="icon-picker-grid">
+            </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/icon-picker.js') }}"></script>
+{% endblock %}

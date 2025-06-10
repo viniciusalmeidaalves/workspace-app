@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - {{ current_user.username }}{% endblock %}
+
+{% block page_content %}
+<header class="workspace-header">
+<div class="logo">
+    Workspace | {{ config.nome_empresa or "[NOME NÃO ENCONTRADO]" }}
+</div>        
+    <div class="user-info">
+        <span>Bem-vindo, {{ current_user.username }}!</span>
+        
+        <a href="{{ url_for('main.intranet') }}" class="intranet-link">
+            <i class="fas fa-building"></i> Intranet
+        </a>
+
+        {% if current_user.is_admin %}
+        {# ATUALIZADO: De 'main.admin_dashboard' para 'admin.admin_dashboard' #}
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="admin-link">
+            <i class="fas fa-user-shield"></i> Painel Admin
+        </a>
+        {% endif %}
+
+        <a href="{{ url_for('main.logout') }}">
+            <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
+    </div>
+</header>
+
+<main class="workspace-container">
+    <h2>Aplicações</h2>
+    <div class="app-grid">
+        {% for app in applications %} 
+        <div class="app-card">
+            <a href="{{ app.link }}" target="_blank" rel="noopener noreferrer">
+                
+                {# Lógica para decidir se mostra uma imagem ou um ícone de fonte #}
+                {% if app.icon and ('.png' in app.icon or '.jpg' in app.icon or '.jpeg' in app.icon or '.svg' in app.icon or '.gif' in app.icon) %}
+                    <img src="{{ url_for('static', filename=app.icon) }}" alt="{{ app.name }} Icon" class="app-icon-image">
+                {% else %}
+                    <i class="{{ app.icon | default('fas fa-question-circle') }} app-icon"></i>
+                {% endif %}
+
+                <p class="app-name">{{ app.name }}</p>
+            </a>
+        </div>
+        {% else %}
+        <p>Nenhuma aplicação foi atribuída a você no momento.</p>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

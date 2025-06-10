@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Intranet - {{ config.nome_empresa }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" />
+{% endblock %}
+
+
+{% block page_content %}
+<header class="workspace-header">
+    <div class="logo">Intranet</div>
+    <div class="user-info">
+        <span>Bem-vindo, {{ current_user.username }}!</span>
+        {# ATUALIZADO: De 'main.admin_dashboard' para 'admin.admin_dashboard' #}
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="admin-link"><i class="fas fa-user-shield"></i> Painel Admin</a>
+        <a href="{{ url_for('main.dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a>
+        <a href="{{ url_for('main.logout') }}"><i class="fas fa-sign-out-alt"></i> Sair</a>
+    </div>
+</header>
+
+<main class="workspace-container intranet-container">
+
+    <div class="intranet-main-content">
+
+        <div class="swiper-container banner-slider">
+            <div class="swiper-wrapper">
+                {% for banner in banners %}
+                <div class="swiper-slide">
+                    <a href="{{ banner.link_url or '#' }}" target="_blank">
+                        <img src="{{ url_for('static', filename=banner.image_path) }}" alt="{{ banner.title }}">
+                    </a>
+                </div>
+                {% else %}
+                <div class="swiper-slide" style="background-color: #e9ecef; display: flex; align-items: center; justify-content: center; color: #6c757d;">
+                    <span>Nenhum banner cadastrado.</span>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <div class="widget-card">
+            <h3>Links Úteis</h3>
+            {% if links_by_category %}
+                {% for category, links in links_by_category.items() %}
+                    <h4 class="category-title">{{ category }}</h4>
+                    <div class="link-grid">
+                        {% for link in links %}
+                        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="link-card">
+                            <i class="fas fa-external-link-alt"></i>
+                            <p>{{ link.title }}</p>
+                        </a>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Nenhum link útil cadastrado no momento.</p>
+            {% endif %}
+        </div>
+
+        <div class="widget-card">
+            <h3>Documentos</h3>
+            {% if docs_by_category %}
+                {% for category, docs in docs_by_category.items() %}
+                    <h4 class="category-title">{{ category }}</h4>
+                    <div class="document-grid">
+                        {% for doc in docs %}
+                        <a href="{{ url_for('main.serve_document', filename=doc.filename) }}" target="_blank" class="document-card">
+                            <i class="fas fa-file-pdf"></i>
+                            <p>{{ doc.title }}</p>
+                        </a>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Nenhum documento cadastrado no momento.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <aside class="intranet-sidebar">
+        <div class="widget-card">
+            <h3>Calendário</h3>
+            <div id='calendar'></div>
+        </div>
+
+        <div class="widget-card weather-card">
+            <h3>Previsão do Tempo (Ibaté/SP)</h3>
+            {% if weather_forecast %}
+                {% for day in weather_forecast %}
+                <div class="forecast-item">
+                    <i class="{{ day.icon }}"></i>
+                    <div>
+                        <strong>{{ day.date | format_date_br }}</strong><br>
+                        <span class="condition">{{ day.condition }}</span><br>
+                        <span class="temp-range">{{ day.min_temp }}°C / {{ day.max_temp }}°C</span>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>Não foi possível carregar a previsão.</p>
+            {% endif %}
+        </div>
+
+        <div class="widget-card news-card">
+            <h3>Últimas Notícias (G1)</h3>
+            {% if g1_news %}
+                <ul class="news-list">
+                    {% for news_item in g1_news %}
+                    <li>
+                        <a href="{{ news_item.url }}" target="_blank" rel="noopener noreferrer">{{ news_item.title }}</a>
+                        <small>Fonte: {{ news_item.source }}</small>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Não foi possível carregar as notícias.</p>
+            {% endif %}
+        </div>
+    </aside>
+
+</main>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializa o Swiper.js
+            var swiper = new Swiper('.banner-slider', {
+                loop: true,
+                autoplay: { delay: 5000, disableOnInteraction: false },
+                pagination: { el: '.swiper-pagination', clickable: true },
+                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+            });
+
+            // Inicializa o FullCalendar
+            var calendarEl = document.getElementById('calendar');
+            if (calendarEl) {
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    locale: 'pt-br',
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek'
+                    },
+                    buttonText: { today: 'Hoje', month: 'Mês', week: 'Semana' }
+                });
+                calendar.render();
+            }
+        });
+    </script>
+{% endblock %}

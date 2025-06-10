@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Gerenciar Links da Intranet - Admin{% endblock %}
+
+{% block page_content %}
+{% include 'admin/_admin_header.html' %} {# Reutiliza o cabeçalho admin #}
+
+<main class="admin-container admin-content">
+    <div class="admin-form-container">
+        <h2>Adicionar Novo Link Útil</h2>
+        {# ATUALIZADO: Prefixo 'admin' #}
+        <form method="POST" action="{{ url_for('admin.manage_intranet_links') }}">
+            <div class="input-group">
+                <label for="title">Título do Link:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="input-group">
+                <label for="url">URL do Link:</label>
+                <input type="url" id="url" name="url" required>
+            </div>
+            <div class="input-group">
+                <label for="category">Categoria (Opcional):</label>
+                <input type="text" id="category" name="category" value="Geral">
+            </div>
+            <button type="submit">Adicionar Link</button>
+        </form>
+    </div>
+
+    <div class="admin-table-container">
+        <h2>Links Úteis Existentes</h2>
+        {% if links %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>URL</th>
+                    <th>Categoria</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for link in links %}
+                <tr>
+                    <td>{{ link.title }}</td>
+                    <td><a href="{{ link.url }}" target="_blank">{{ link.url }}</a></td>
+                    <td>{{ link.category }}</td>
+                    <td class="actions">
+                        {# ATUALIZADO: Prefixo 'admin' #}
+                        <a href="{{ url_for('admin.edit_intranet_link', link_id=link.id) }}" class="btn-edit">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        {# ATUALIZADO: Prefixo 'admin' #}
+                        <form action="{{ url_for('admin.delete_intranet_link', link_id=link.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este link?');" style="display:inline;">
+                            <button type="submit" class="btn-delete">
+                                <i class="fas fa-trash-alt"></i> Deletar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Nenhum link útil cadastrado.</p>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

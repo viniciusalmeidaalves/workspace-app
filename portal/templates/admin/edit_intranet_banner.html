@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Banner da Intranet{% endblock %}
+
+{% block page_content %}
+{% include 'admin/_admin_header.html' %}
+
+<main class="admin-container admin-content">
+    <div class="admin-form-container">
+        <h2>Editar Banner: {{ banner.title or 'Sem Título' }}</h2>
+        {# ATUALIZADO: Prefixo 'admin' na action implícita #}
+        <form method="POST" enctype="multipart/form-data">
+            <div class="input-group">
+                <label for="title">Título do Banner:</label>
+                <input type="text" id="title" name="title" value="{{ banner.title or '' }}">
+            </div>
+            <div class="input-group">
+                <label for="link_url">URL de Destino:</label>
+                <input type="url" id="link_url" name="link_url" value="{{ banner.link_url or '' }}">
+            </div>
+            <div class="input-group">
+                <label for="order">Ordem de Exibição:</label>
+                <input type="number" id="order" name="order" value="{{ banner.order }}">
+            </div>
+            <div class="input-group">
+                <label>Imagem Atual:</label>
+                <img src="{{ url_for('static', filename=banner.image_path) }}" alt="Banner Atual" width="200">
+            </div>
+            <div class="input-group">
+                <label for="banner_file">Substituir Imagem (Opcional):</label>
+                <input type="file" id="banner_file" name="banner_file" accept="image/*">
+            </div>
+            <button type="submit">Atualizar Banner</button>
+            {# ATUALIZADO: Prefixo 'admin' #}
+            <a href="{{ url_for('admin.manage_intranet_banners') }}" class="btn-secondary" style="text-decoration: none; margin-left: 10px;">Voltar</a>
+        </form>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,9 @@
+{
+    "nome_empresa": "nome_empresa",
+    "imagem_fundo_login": "...",
+    "cores": {
+        "primaria": "#2980B9",
+        "texto_cabecalho": "#ffffff",
+        "hover_botao": "#3498DB"
+    }
+}

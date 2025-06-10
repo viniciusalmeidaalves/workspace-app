@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Painel Admin{% endblock %}
+
+{% block page_content %}
+{% include 'admin/_admin_header.html' %}
+
+<main class="admin-container">
+    <div class="admin-menu">
+        {# ATUALIZADO: Prefixo 'admin' #}
+        <a href="{{ url_for('admin.manage_users') }}" class="admin-menu-item">
+            <i class="fas fa-users"></i>
+            <span>Gerenciar Usuários</span>
+        </a>
+        {# ATUALIZADO: Prefixo 'admin' #}
+        <a href="{{ url_for('admin.manage_applications') }}" class="admin-menu-item">
+            <i class="fas fa-boxes"></i>
+            <span>Gerenciar Aplicações</span>
+        </a>
+        {# ATUALIZADO: Prefixo 'admin' #}
+        <a href="{{ url_for('admin.manage_intranet_links') }}" class="admin-menu-item">
+            <i class="fas fa-link"></i>
+            <span>Gerenciar Links da Intranet</span>
+        </a>
+        {# ATUALIZADO: Prefixo 'admin' #}
+        <a href="{{ url_for('admin.manage_intranet_documents') }}" class="admin-menu-item">
+            <i class="fas fa-file-alt"></i>
+            <span>Gerenciar Documentos da Intranet</span>
+        </a>
+        {# ATUALIZADO: Prefixo 'admin' #}
+        <a href="{{ url_for('admin.manage_intranet_banners') }}" class="admin-menu-item">
+            <i class="fas fa-images"></i>
+            <span>Gerenciar Banners da Intranet</span>
+        </a>
+    </div>
+</main>
+{% endblock %}

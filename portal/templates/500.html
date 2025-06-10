@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Erro Interno do Servidor - 500{% endblock %}
+
+{% block page_content %}
+<div class="container" style="text-align: center; padding: 50px 20px;">
+    <h1 style="font-size: 5em; color: #e74c3c;">500</h1>
+    <h2 style="color: var(--text-dark);">Ocorreu um Erro Interno do Servidor</h2>
+    <p style="font-size: 1.1em; color: var(--text-light);">
+        Pedimos desculpas, algo deu errado em nossos servidores.
+        Nossa equipe já foi notificada e está trabalhando para resolver isso.
+    </p>
+    <p>
+        {# ATUALIZADO: Usando a nova classe btn-primary-error #}
+        <a href="{{ url_for('main.dashboard') }}" class="btn-primary-error">
+            Voltar para o Dashboard
+        </a>
+    </p>
+    <p style="font-size: 0.9em; color: #95a5a6; margin-top: 30px;">
+        Se o problema persistir, entre em contato com o suporte.
+    </p>
+</div>
+{% endblock %}

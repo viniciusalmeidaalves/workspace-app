@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Permissões de {{ user.username }}{% endblock %}
+
+{% block page_content %}
+<div class="admin-container">
+    <header class="admin-header">
+        <h1>Permissões para: <strong>{{ user.username }}</strong></h1>
+        <nav>
+            {# ATUALIZADO: Prefixo 'admin' #}
+            <a href="{{ url_for('admin.manage_users') }}">Voltar para Usuários</a>
+        </nav>
+    </header>
+    <main class="admin-content">
+        <div class="admin-form-container permissions-form">
+            <h2>Selecione as aplicações que este usuário pode acessar:</h2>
+            {# ATUALIZADO: Prefixo 'admin' na action implícita (POST para a mesma rota) #}
+            <form method="POST">
+                <div class="checkbox-grid">
+                    {% for app in applications %}
+                    <label>
+                        <input type="checkbox" name="applications" value="{{ app.id }}" 
+                               {% if app in user.applications %}checked{% endif %}>
+                        <i class="{{ app.icon }}"></i> {{ app.name }}
+                    </label>
+                    {% endfor %}
+                </div>
+                <button type="submit">Salvar Permissões</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %}
