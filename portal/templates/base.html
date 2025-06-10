@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meu Portal{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{ version }}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    {# --- ADICIONE ESTE BLOCO DE ESTILO AQUI --- #}
+    {% if config.cores %}
+    <style>
+        :root {
+            --cor-primaria: {{ config.cores.primaria | default('#4A2582') }};
+            --cor-texto-cabecalho: {{ config.cores.texto_cabecalho | default('#ffffff') }};
+            --cor-hover-botao: {{ config.cores.hover_botao | default('#5e33a1') }};
+        }
+    </style>
+    {% endif %}
+    {# ----------------------------------------- #}
+
+    {% block head %}{% endblock %}
+
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    {# Bloco de mensagens movido para cá, para aparecer em todas as páginas #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block page_content %}
+    {% endblock %}
+
+    <footer class="dev-credit">
+        <a href="https://www.vtechnologie.com.br/" target="_blank" rel="noopener noreferrer">
+            Desenvolvido por V Technologie
+        </a>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

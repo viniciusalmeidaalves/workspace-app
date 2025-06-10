@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Nova Conta{% endblock %}
+
+{% block body_class %}login-page{% endblock %}
+
+{% block page_content %}
+<header class="login-header">
+    Portal de Aplicações
+</header>
+
+<div class="login-box">
+    <h2>Criar Conta</h2>
+    <form method="post" class="login-form">
+        <div class="input-group">
+            <label for="username">Nome de usuário:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="input-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Registrar</button>
+    </form>
+    <div class="register-link">
+        <p>Já tem uma conta? <a href="{{ url_for('main.login') }}">Faça o login aqui</a>.</p>
+    </div>
+</div>
+{% endblock %}

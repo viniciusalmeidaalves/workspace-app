@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Gerenciar Documentos da Intranet - Admin{% endblock %}
+
+{% block page_content %}
+{% include 'admin/_admin_header.html' %}
+
+<main class="admin-container admin-content">
+    <div class="admin-form-container">
+        <h2>Fazer Upload de Novo Documento (PDF)</h2>
+        <form method="POST" action="{{ url_for('main.manage_intranet_documents') }}" enctype="multipart/form-data">
+            <div class="input-group">
+                <label for="title">Título do Documento:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="input-group">
+                <label for="document_file">Arquivo do Documento (PDF):</label>
+                <input type="file" id="document_file" name="document_file" accept=".pdf" required>
+            </div>
+            <div class="input-group">
+                <label for="category">Categoria (Ex: Catálogo, Manual, Política):</label>
+                <input type="text" id="category" name="category" value="Documento">
+            </div>
+            <button type="submit">Adicionar Documento</button>
+        </form>
+    </div>
+
+    <div class="admin-table-container">
+        <h2>Documentos Existentes</h2>
+        {% if documents %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Nome do Arquivo</th>
+                    <th>Categoria</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doc in documents %}
+                <tr>
+                    <td>{{ doc.title }}</td>
+                    <td><a href="{{ url_for('main.serve_document', filename=doc.filename) }}" target="_blank">{{ doc.filename }}</a></td>
+                    <td>{{ doc.category }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('main.edit_intranet_document', doc_id=doc.id) }}" class="btn-edit">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <form action="{{ url_for('main.delete_intranet_document', doc_id=doc.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este documento? Isso também removerá o arquivo físico.');" style="display:inline;">
+                            <button type="submit" class="btn-delete">
+                                <i class="fas fa-trash-alt"></i> Deletar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Nenhum documento cadastrado.</p>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

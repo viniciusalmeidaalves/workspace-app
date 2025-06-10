@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Documento da Intranet - Admin{% endblock %}
+
+{% block page_content %}
+{% include 'admin/_admin_header.html' %}
+
+<main class="admin-container admin-content">
+    <div class="admin-form-container">
+        <h2>Editar Documento</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="input-group">
+                <label for="title">Título do Documento:</label>
+                <input type="text" id="title" name="title" value="{{ doc.title }}" required>
+            </div>
+            <div class="input-group">
+                <label for="category">Categoria:</label>
+                <input type="text" id="category" name="category" value="{{ doc.category }}">
+            </div>
+            <div class="input-group">
+                <label for="document_file">Substituir Arquivo do Documento (Opcional - PDF):</label>
+                <input type="file" id="document_file" name="document_file" accept=".pdf">
+                {% if doc.filename %}
+                <small>Arquivo atual: <a href="{{ url_for('main.serve_document', filename=doc.filename) }}" target="_blank">{{ doc.filename }}</a></small>
+                {% endif %}
+            </div>
+            <button type="submit">Atualizar Documento</button>
+            <a href="{{ url_for('main.manage_intranet_documents') }}" class="btn-secondary">Voltar</a>
+        </form>
+    </div>
+</main>
+{% endblock %}

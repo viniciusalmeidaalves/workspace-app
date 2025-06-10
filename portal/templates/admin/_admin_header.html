@@ -1,0 +1,21 @@
+{# portal/templates/admin/_admin_header.html #}
+
+<header class="workspace-header admin-header-custom"> 
+    <div class="logo">Painel Admin</div>
+    <div class="user-info">
+        <a href="{{ url_for('main.dashboard') }}" class="dashboard-link">
+            <i class="fas fa-th-large"></i> Dashboard
+        </a>
+        <a href="{{ url_for('main.intranet') }}" class="intranet-link"> 
+            <i class="fas fa-building"></i> Intranet
+        </a>
+        <a href="{{ url_for('main.manage_users') }}">Gerenciar Usuários</a>
+        <a href="{{ url_for('main.manage_applications') }}">Gerenciar Aplicações</a>
+        {# NOVOS LINKS PARA GERENCIAMENTO DA INTRANET #}
+        <a href="{{ url_for('main.manage_intranet_links') }}">Gerenciar Links</a>
+        <a href="{{ url_for('main.manage_intranet_documents') }}">Gerenciar Docs</a>
+        <a href="{{ url_for('main.logout') }}">
+            <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
+    </div>
+</header>
