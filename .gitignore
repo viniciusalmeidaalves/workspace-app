@@ -1,0 +1,25 @@
+# Ambiente virtual
+venv/
+.env/
+.env
+
+# Arquivos Python compilados
+__pycache__/
+*.pyc
+
+# Banco de dados local
+*.sqlite3
+*.db
+
+# Uploads e arquivos gerados pelo usuário
+portal/static/uploads/
+
+# Logs
+*.log
+
+# Configurações do VS Code
+.vscode/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
