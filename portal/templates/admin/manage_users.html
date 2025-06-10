@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Gerenciar Usuários{% endblock %}
+
+{% block page_content %}
+<div class="admin-container">
+    <header class="admin-header">
+        <h1>Gerenciar Usuários</h1>
+        <nav>
+            <a href="{{ url_for('main.admin_dashboard') }}">Painel Admin</a>
+            <a href="{{ url_for('main.dashboard') }}">Voltar para o Dashboard</a>
+        </nav>
+    </header>
+    <main class="admin-content">
+        <div class="admin-form-container">
+            <h2>Cadastrar Novo Usuário</h2>
+            <form method="POST">
+                <input type="text" name="username" placeholder="Nome de usuário" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Senha" required>
+                <label>
+                    <input type="checkbox" name="is_admin">
+                    É Administrador?
+                </label>
+                <button type="submit">Cadastrar Usuário</button>
+            </form>
+        </div>
+
+        <div class="admin-table-container">
+            <h2>Usuários Cadastrados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuário</th>
+                        <th>Email</th>
+                        <th>Admin?</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{% if user.is_admin %}Sim{% else %}Não{% endif %}</td>
+                        <td class="actions">
+                            {% if not user.is_admin %}
+                            <a href="{{ url_for('main.edit_user_permissions', user_id=user.id) }}" class="btn-edit">Permissões</a>
+                            <form action="{{ url_for('main.delete_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este usuário?');">
+                                <button type="submit" class="btn-delete">Deletar</button>
+                            </form>
+                            {% else %}
+                            <span>-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+{% endblock %}

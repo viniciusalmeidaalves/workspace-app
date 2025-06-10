@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Link da Intranet - Admin{% endblock %}
+
+{% block page_content %}
+{% include 'admin/_admin_header.html' %}
+
+<main class="admin-container admin-content">
+    <div class="admin-form-container">
+        <h2>Editar Link Útil</h2>
+        <form method="POST">
+            <div class="input-group">
+                <label for="title">Título do Link:</label>
+                <input type="text" id="title" name="title" value="{{ link.title }}" required>
+            </div>
+            <div class="input-group">
+                <label for="url">URL do Link:</label>
+                <input type="url" id="url" name="url" value="{{ link.url }}" required>
+            </div>
+            <div class="input-group">
+                <label for="category">Categoria:</label>
+                <input type="text" id="category" name="category" value="{{ link.category }}">
+            </div>
+            <button type="submit">Atualizar Link</button>
+            <a href="{{ url_for('main.manage_intranet_links') }}" class="btn-secondary">Voltar</a>
+        </form>
+    </div>
+</main>
+{% endblock %}
