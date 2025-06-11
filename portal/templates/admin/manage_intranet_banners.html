@@ -1,75 +1,103 @@
 {% extends "base.html" %}
+{% from "macros/_pagination_macro.html" import render_pagination %}
 
-{% block title %}Gerenciar Banners da Intranet{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block page_content %}
 {% include 'admin/_admin_header.html' %}
 
-<main class="admin-container admin-content">
-    <div class="admin-form-container">
-        <h2>Adicionar Novo Banner</h2>
-<<<<<<< HEAD
-        {# ATUALIZADO: Prefixo 'admin' #}
-        <form method="POST" action="{{ url_for('admin.manage_intranet_banners') }}" enctype="multipart/form-data">
-=======
-        <form method="POST" enctype="multipart/form-data">
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
-            <div class="input-group">
-                <label for="title">Título do Banner (para referência):</label>
-                <input type="text" id="title" name="title">
-            </div>
-            <div class="input-group">
-                <label for="link_url">URL de Destino (para onde o banner leva ao clicar):</label>
-                <input type="url" id="link_url" name="link_url">
-            </div>
-            <div class="input-group">
-                <label for="order">Ordem de Exibição (menores primeiro):</label>
-                <input type="number" id="order" name="order" value="0">
-            </div>
-            <div class="input-group">
-                <label for="banner_file">Arquivo de Imagem (Recomendado: 1200x400 pixels):</label>
-                <input type="file" id="banner_file" name="banner_file" accept="image/*" required>
-            </div>
-            <button type="submit">Adicionar Banner</button>
-        </form>
-    </div>
+<main class="admin-container">
+    <div class="admin-content">
+        <h1>{{ title }}</h1>
 
-    <div class="admin-table-container">
-        <h2>Banners Existentes</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Ordem</th>
-                    <th>Imagem</th>
-                    <th>Título</th>
-                    <th>Link</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for banner in banners %}
-                <tr>
-                    <td>{{ banner.order }}</td>
-                    <td><img src="{{ url_for('static', filename=banner.image_path) }}" alt="{{ banner.title }}" width="150"></td>
-                    <td>{{ banner.title }}</td>
-                    <td><a href="{{ banner.link_url }}" target="_blank">{{ banner.link_url }}</a></td>
-                    <td class="actions">
-<<<<<<< HEAD
-                        {# ATUALIZADO: Prefixo 'admin' #}
-                        <a href="{{ url_for('admin.edit_intranet_banner', banner_id=banner.id) }}" class="btn-edit">Editar</a>
-                        {# ATUALIZADO: Prefixo 'admin' #}
-                        <form action="{{ url_for('admin.delete_intranet_banner', banner_id=banner.id) }}" method="POST" onsubmit="return confirm('Tem certeza?');" style="display:inline;">
-=======
-                        <a href="{{ url_for('main.edit_intranet_banner', banner_id=banner.id) }}" class="btn-edit">Editar</a>
-                        <form action="{{ url_for('main.delete_intranet_banner', banner_id=banner.id) }}" method="POST" onsubmit="return confirm('Tem certeza?');" style="display:inline;">
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
-                            <button type="submit" class="btn-delete">Deletar</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% include 'messages_errors.html' %}
+
+        <div class="filter-and-add">
+            <form method="GET" action="{{ url_for('admin.intranet_content.manage_intranet_banners') }}" class="filter-form">
+                <input type="text" name="search" placeholder="Buscar banner..." value="{{ request.args.get('search', '') }}">
+                <button type="submit" class="btn-filter">Buscar</button>
+            </form>
+            <a href="#" class="btn-add" onclick="document.getElementById('addBannerForm').style.display = 'block'; return false;">Adicionar Novo Banner</a>
+        </div>
+
+        <div id="addBannerForm" class="admin-form-container" style="display: none; margin-bottom: 30px;">
+            <h2>Adicionar Novo Banner</h2>
+            <form method="POST" action="{{ url_for('admin.intranet_content.manage_intranet_banners') }}" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.title.label }}
+                    {{ form.title(class="form-control") }}
+                    {% for error in form.title.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.link_url.label }}
+                    {{ form.link_url(class="form-control") }}
+                    {% for error in form.link_url.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.order.label }}
+                    {{ form.order(class="form-control") }}
+                    {% for error in form.order.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.banner_file.label }}
+                    {{ form.banner_file(class="form-control-file", required=true) }}
+                    {% for error in form.banner_file.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-actions">
+                    {{ form.submit(class="btn btn-primary") }}
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('addBannerForm').style.display = 'none';">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+
+        {% if banners %}
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>URL</th>
+                        <th>Ordem</th>
+                        <th>Imagem</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for banner in banners.items %}
+                    <tr>
+                        <td>{{ banner.id }}</td>
+                        <td>{{ banner.title }}</td>
+                        <td><a href="{{ banner.link_url }}" target="_blank">{{ banner.link_url }}</a></td>
+                        <td>{{ banner.order }}</td>
+                        <td><img src="{{ url_for('static', filename=banner.image_path) }}" alt="{{ banner.title }}" style="max-width: 100px; height: auto;"></td>
+                        <td class="actions">
+                            <a href="{{ url_for('admin.intranet_content.edit_intranet_banner', banner_id=banner.id) }}" class="btn-edit">Editar</a>
+                            <form action="{{ url_for('admin.intranet_content.delete_intranet_banner', banner_id=banner.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este banner?');" style="display:inline-block;">
+                                <button type="submit" class="btn-delete">Deletar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {{ render_pagination(pagination, 'admin.intranet_content.manage_intranet_banners') }}
+
+        {% else %}
+        <p>Nenhum banner encontrado.</p>
+        {% endif %}
     </div>
 </main>
 {% endblock %}

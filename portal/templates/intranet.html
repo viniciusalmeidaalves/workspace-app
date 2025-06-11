@@ -1,34 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %}Intranet - {{ config.nome_empresa }}{% endblock %}
+{% block title %}Intranet - {{ config.get('nome_empresa', 'Empresa') }}{% endblock %}
 
 {% block head %}
-    {{ super() }}
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" />
 {% endblock %}
 
-
 {% block page_content %}
 <header class="workspace-header">
     <div class="logo">Intranet</div>
+    <form action="{{ url_for('main.search') }}" method="GET" class="header-search-form">
+        <input type="text" name="q" placeholder="Buscar no portal..." value="{{ request.args.get('q', '') }}">
+        <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
     <div class="user-info">
-        <span>Bem-vindo, {{ current_user.username }}!</span>
-<<<<<<< HEAD
-        {# ATUALIZADO: De 'main.admin_dashboard' para 'admin.admin_dashboard' #}
-        <a href="{{ url_for('admin.admin_dashboard') }}" class="admin-link"><i class="fas fa-user-shield"></i> Painel Admin</a>
-=======
-        <a href="{{ url_for('main.admin_dashboard') }}" class="admin-link"><i class="fas fa-user-shield"></i> Painel Admin</a>
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
+        {% if current_user.is_admin %}
+            <a href="{{ url_for('admin.admin_dashboard') }}" class="admin-link"><i class="fas fa-user-shield"></i> Painel Admin</a>
+        {% endif %}
         <a href="{{ url_for('main.dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a>
         <a href="{{ url_for('main.logout') }}"><i class="fas fa-sign-out-alt"></i> Sair</a>
     </div>
 </header>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                    <button type="button" class="close-alert" onclick="this.parentElement.style.display='none';">&times;</button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
 <main class="workspace-container intranet-container">
 
     <div class="intranet-main-content">
-
         <div class="swiper-container banner-slider">
             <div class="swiper-wrapper">
                 {% for banner in banners %}
@@ -133,34 +143,55 @@
 
 
 {% block scripts %}
-    {{ super() }}
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializa o Swiper.js
-            var swiper = new Swiper('.banner-slider', {
-                loop: true,
-                autoplay: { delay: 5000, disableOnInteraction: false },
-                pagination: { el: '.swiper-pagination', clickable: true },
-                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-            });
+            // Inicializa o Swiper.js para os banners
+            try {
+                var swiper = new Swiper('.banner-slider', {
+                    loop: true,
+                    autoplay: { delay: 5000, disableOnInteraction: false },
+                    pagination: { el: '.swiper-pagination', clickable: true },
+                    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                });
+            } catch (e) {
+                console.error("Erro ao inicializar o Swiper (carrossel de banners):", e);
+            }
 
             // Inicializa o FullCalendar
             var calendarEl = document.getElementById('calendar');
             if (calendarEl) {
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    locale: 'pt-br',
-                    headerToolbar: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek'
-                    },
-                    buttonText: { today: 'Hoje', month: 'Mês', week: 'Semana' }
-                });
-                calendar.render();
+                try {
+                    // Pega os eventos do backend, convertidos para JSON.
+                    // Esta é a linha crítica que estava causando o erro.
+                    var eventsData = {{ events_json | safe }};
+
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        locale: 'pt-br',
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek'
+                        },
+                        buttonText: {
+                            today: 'Hoje',
+                            month: 'Mês',
+                            week: 'Semana'
+                        },
+                        events: eventsData,
+                        eventClick: function(info) {
+                            let description = info.event.extendedProps.description || 'Sem descrição';
+                            alert('Evento: ' + info.event.title + '\nDescrição: ' + description);
+                        }
+                    });
+                    calendar.render();
+                } catch (e) {
+                    console.error("ERRO AO PROCESSAR DADOS DO CALENDÁRIO:", e);
+                    calendarEl.innerHTML = '<p style="color: red; font-weight: bold;">Ocorreu um erro ao carregar o calendário. Verifique o console do navegador (F12) para detalhes.</p>';
+                }
             }
         });
     </script>

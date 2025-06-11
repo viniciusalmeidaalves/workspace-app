@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% from "macros/_pagination_macro.html" import render_pagination %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block page_content %}
+{% include 'admin/_admin_header.html' %}
+
+<main class="admin-container">
+    <div class="admin-content">
+        <h1>{{ title }}</h1>
+
+        {% include 'messages_errors.html' %}
+
+        <div class="filter-and-add">
+            <form method="GET" action="{{ url_for('admin.events.manage_events') }}" class="filter-form">
+                <input type="text" name="search" placeholder="Buscar evento..." value="{{ request.args.get('search', '') }}">
+                <button type="submit" class="btn-filter">Buscar</button>
+            </form>
+            <a href="#" class="btn-add" onclick="document.getElementById('addEventForm').style.display = 'block'; return false;">Adicionar Novo Evento</a>
+        </div>
+
+        <div id="addEventForm" class="admin-form-container" style="display: none; margin-bottom: 30px;">
+            <h2>Adicionar Novo Evento</h2>
+            <form method="POST" action="{{ url_for('admin.events.manage_events') }}">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.title.label }}
+                    {{ form.title(class="form-control") }}
+                    {% for error in form.title.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.start_date.label }}
+                    {{ form.start_date(class="form-control") }}
+                    {% for error in form.start_date.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.end_date.label }}
+                    {{ form.end_date(class="form-control") }}
+                    {% for error in form.end_date.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group form-check">
+                    {{ form.all_day(class="form-check-input") }}
+                    {{ form.all_day.label(class="form-check-label") }}
+                    {% for error in form.all_day.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.description.label }}
+                    {{ form.description(class="form-control", rows="5") }}
+                    {% for error in form.description.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-actions">
+                    {{ form.submit(class="btn btn-primary") }}
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('addEventForm').style.display = 'none';">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+
+        {% if events %}
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Data Início</th>
+                        <th>Data Fim</th>
+                        <th>Dia Inteiro</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr>
+                        <td>{{ event.id }}</td>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.start_date.strftime('%d/%m/%Y %H:%M') }}</td>
+                        <td>{{ event.end_date.strftime('%d/%m/%Y %H:%M') if event.end_date else 'N/A' }}</td>
+                        <td>{{ 'Sim' if event.all_day else 'Não' }}</td>
+                        <td class="actions">
+                            <a href="{{ url_for('admin.events.edit_event', event_id=event.id) }}" class="btn-edit">Editar</a>
+                            <form action="{{ url_for('admin.events.delete_event', event_id=event.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este evento?');" style="display:inline-block;">
+                                <button type="submit" class="btn-delete">Deletar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {{ render_pagination(events_pagination, 'admin.events.manage_events') }}
+
+        {% else %}
+        <p>Nenhum evento encontrado.</p>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

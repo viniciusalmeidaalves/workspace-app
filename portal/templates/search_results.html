@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados da Busca - {{ query }}{% endblock %}
+
+{% block page_content %}
+<header class="workspace-header">
+    <div class="logo">Busca no Portal</div>
+    <div class="user-info">
+        <span>Bem-vindo, {{ current_user.username }}!</span>
+        <a href="{{ url_for('main.intranet') }}" class="intranet-link">
+            <i class="fas fa-building"></i> Intranet
+        </a>
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="admin-link">
+            <i class="fas fa-user-shield"></i> Painel Admin
+        </a>
+        {% endif %}
+        <a href="{{ url_for('main.logout') }}">
+            <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
+    </div>
+</header>
+
+<main class="workspace-container">
+    <h2>Resultados para: "{{ query }}"</h2>
+
+    {% if not query %}
+        <p>Por favor, digite um termo na barra de busca para encontrar resultados.</p>
+    {% else %}
+        {% if not applications and not useful_links and not documents %}
+            <p>Nenhum resultado encontrado para "{{ query }}".</p>
+        {% endif %}
+
+        {% if applications %}
+        <div class="search-section">
+            <h3>Aplicações</h3>
+            <div class="app-grid">
+                {% for app in applications %} 
+                <div class="app-card">
+                    <a href="{{ app.link }}" target="_blank" rel="noopener noreferrer">
+                        {% if app.icon and ('.png' in app.icon or '.jpg' in app.icon or '.jpeg' in app.icon or '.svg' in app.icon or '.gif' in app.icon) %}
+                            <img src="{{ url_for('static', filename=app.icon) }}" alt="{{ app.name }} Icon" class="app-icon-image">
+                        {% else %}
+                            <i class="{{ app.icon | default('fas fa-question-circle') }} app-icon"></i>
+                        {% endif %}
+                        <p class="app-name">{{ app.name }}</p>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if useful_links %}
+        <div class="search-section">
+            <h3>Links Úteis</h3>
+            <div class="link-grid"> {# Reutiliza a classe de grid de links da intranet #}
+                {% for link in useful_links %}
+                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="link-card">
+                    <i class="fas fa-external-link-alt"></i>
+                    <p>{{ link.title }}</p>
+                    <small>Categoria: {{ link.category }}</small>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if documents %}
+        <div class="search-section">
+            <h3>Documentos</h3>
+            <div class="document-grid"> {# Reutiliza a classe de grid de documentos da intranet #}
+                {% for doc in documents %}
+                <a href="{{ url_for('main.serve_document', filename=doc.filename) }}" target="_blank" class="document-card">
+                    <i class="fas fa-file-pdf"></i>
+                    <p>{{ doc.title }}</p>
+                    <small>Categoria: {{ doc.category }}</small>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+</main>
+{% endblock %}

@@ -11,7 +11,6 @@
 
 <div class="login-box">
     <h2>Criar Conta</h2>
-<<<<<<< HEAD
     {# AGORA USA O FORMULÁRIO FLASK-WTF #}
     <form method="post" class="login-form">
         {{ form.hidden_tag() }} {# ESSENCIAL: Proteção CSRF #}
@@ -44,22 +43,6 @@
             {% endfor %}
         </div>
         {{ form.submit(class="btn btn-primary") }}
-=======
-    <form method="post" class="login-form">
-        <div class="input-group">
-            <label for="username">Nome de usuário:</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-        <div class="input-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <div class="input-group">
-            <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <button type="submit">Registrar</button>
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
     </form>
     <div class="register-link">
         <p>Já tem uma conta? <a href="{{ url_for('main.login') }}">Faça o login aqui</a>.</p>

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block page_content %}
+{% include 'admin/_admin_header.html' %}
+
+<main class="admin-container">
+    <div class="admin-content">
+        <h1>{{ title }}</h1>
+        {% include 'messages_errors.html' %}
+        <form method="POST" action="{{ url_for('admin.applications.edit_application', app_id=app.id) }}" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.name.label }}
+                {{ form.name(class="form-control") }}
+                {% for error in form.name.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.link.label }}
+                {{ form.link(class="form-control") }}
+                {% for error in form.link.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group icon-input-group">
+                {{ form.icon_class.label }}
+                {{ form.icon_class(class="form-control", placeholder="Ex: fas fa-home ou fab fa-windows") }}
+                <button type="button" id="open-icon-picker" class="btn-choose-icon">Escolher Ícone</button>
+                {% for error in form.icon_class.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="icon_file">Ou Enviar Ícone (PNG, JPG, SVG, GIF)</label>
+                <input type="file" name="icon_file" id="icon_file" class="form-control-file">
+                {% if app.icon %}
+                    {% if '.png' in app.icon or '.jpg' in app.icon or '.jpeg' in app.icon or '.svg' in app.icon or '.gif' in app.icon %}
+                        <p>Ícone atual (arquivo): <img src="{{ url_for('static', filename=app.icon) }}" alt="Ícone atual" style="max-width: 50px; height: auto; vertical-align: middle;"></p>
+                    {% else %}
+                        <p>Ícone atual (classe): <i class="{{ app.icon }}" style="font-size: 2em; vertical-align: middle;"></i> ({{ app.icon }})</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="form-actions">
+                {{ form.submit(class="btn btn-primary") }}
+                <a href="{{ url_for('admin.applications.manage_applications') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<div id="icon-modal" class="icon-modal">
+    <div class="icon-modal-content">
+        <span class="icon-modal-close">&times;</span>
+        <h2>Escolher Ícone</h2>
+        <input type="text" id="icon-search" placeholder="Buscar ícone...">
+        <div id="icon-picker-grid" class="icon-picker-grid">
+            </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/icon-picker.js') }}"></script>
+{% endblock %}

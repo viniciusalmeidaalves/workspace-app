@@ -1,0 +1,48 @@
+/* --- _base.css: Estilos Base e Comuns --- */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-dark);
+}
+
+/* Estilos gerais de contêineres e botões */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.btn-edit, .btn-delete, .btn-secondary, .btn-primary-error {
+    padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.btn-edit { background-color: #3498db; }
+.btn-edit:hover { background-color: #2980b9; }
+.btn-delete { background-color: #e74c3c; }
+.btn-delete:hover { background-color: #c0392b; }
+.btn-secondary { background-color: #95a5a6; color: white; }
+.btn-secondary:hover { background-color: #7f8c8d; }
+
+.btn-primary-error {
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+.btn-primary-error:hover {
+    background-color: var(--cor-hover-botao);
+}

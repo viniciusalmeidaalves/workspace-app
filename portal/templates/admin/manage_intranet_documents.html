@@ -1,78 +1,93 @@
 {% extends "base.html" %}
+{% from "macros/_pagination_macro.html" import render_pagination %}
 
-{% block title %}Gerenciar Documentos da Intranet - Admin{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block page_content %}
 {% include 'admin/_admin_header.html' %}
 
-<main class="admin-container admin-content">
-    <div class="admin-form-container">
-        <h2>Fazer Upload de Novo Documento (PDF)</h2>
-<<<<<<< HEAD
-        {# ATUALIZADO: Prefixo 'admin' #}
-        <form method="POST" action="{{ url_for('admin.manage_intranet_documents') }}" enctype="multipart/form-data">
-=======
-        <form method="POST" action="{{ url_for('main.manage_intranet_documents') }}" enctype="multipart/form-data">
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
-            <div class="input-group">
-                <label for="title">Título do Documento:</label>
-                <input type="text" id="title" name="title" required>
-            </div>
-            <div class="input-group">
-                <label for="document_file">Arquivo do Documento (PDF):</label>
-                <input type="file" id="document_file" name="document_file" accept=".pdf" required>
-            </div>
-            <div class="input-group">
-                <label for="category">Categoria (Ex: Catálogo, Manual, Política):</label>
-                <input type="text" id="category" name="category" value="Documento">
-            </div>
-            <button type="submit">Adicionar Documento</button>
-        </form>
-    </div>
+<main class="admin-container">
+    <div class="admin-content">
+        <h1>{{ title }}</h1>
 
-    <div class="admin-table-container">
-        <h2>Documentos Existentes</h2>
+        {% include 'messages_errors.html' %}
+
+        <div class="filter-and-add">
+            <form method="GET" action="{{ url_for('admin.intranet_content.manage_intranet_documents') }}" class="filter-form">
+                <input type="text" name="search" placeholder="Buscar documento..." value="{{ request.args.get('search', '') }}">
+                <button type="submit" class="btn-filter">Buscar</button>
+            </form>
+            <a href="#" class="btn-add" onclick="document.getElementById('addDocumentForm').style.display = 'block'; return false;">Adicionar Novo Documento</a>
+        </div>
+
+        <div id="addDocumentForm" class="admin-form-container" style="display: none; margin-bottom: 30px;">
+            <h2>Adicionar Novo Documento</h2>
+            <form method="POST" action="{{ url_for('admin.intranet_content.manage_intranet_documents') }}" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.title.label }}
+                    {{ form.title(class="form-control") }}
+                    {% for error in form.title.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                 <div class="form-group">
+                    {{ form.category.label }}
+                    {{ form.category(class="form-control") }}
+                    {% for error in form.category.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.document_file.label }}
+                    {{ form.document_file(class="form-control-file", required=true) }}
+                    {% for error in form.document_file.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-actions">
+                    {{ form.submit(class="btn btn-primary") }}
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('addDocumentForm').style.display = 'none';">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+
         {% if documents %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Título</th>
-                    <th>Nome do Arquivo</th>
-                    <th>Categoria</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for doc in documents %}
-                <tr>
-                    <td>{{ doc.title }}</td>
-                    <td><a href="{{ url_for('main.serve_document', filename=doc.filename) }}" target="_blank">{{ doc.filename }}</a></td>
-                    <td>{{ doc.category }}</td>
-                    <td class="actions">
-<<<<<<< HEAD
-                        {# ATUALIZADO: Prefixo 'admin' #}
-                        <a href="{{ url_for('admin.edit_intranet_document', doc_id=doc.id) }}" class="btn-edit">
-                            <i class="fas fa-edit"></i> Editar
-                        </a>
-                        {# ATUALIZADO: Prefixo 'admin' #}
-                        <form action="{{ url_for('admin.delete_intranet_document', doc_id=doc.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este documento? Isso também removerá o arquivo físico.');" style="display:inline;">
-=======
-                        <a href="{{ url_for('main.edit_intranet_document', doc_id=doc.id) }}" class="btn-edit">
-                            <i class="fas fa-edit"></i> Editar
-                        </a>
-                        <form action="{{ url_for('main.delete_intranet_document', doc_id=doc.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este documento? Isso também removerá o arquivo físico.');" style="display:inline;">
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
-                            <button type="submit" class="btn-delete">
-                                <i class="fas fa-trash-alt"></i> Deletar
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Categoria</th>
+                        <th>Arquivo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in documents %}
+                    <tr>
+                        <td>{{ doc.id }}</td>
+                        <td>{{ doc.title }}</td>
+                        <td>{{ doc.category }}</td>
+                        <td><a href="{{ url_for('main.serve_document', filename=doc.filename) }}" target="_blank">{{ doc.filename }}</a></td>
+                        <td class="actions">
+                            <a href="{{ url_for('admin.intranet_content.edit_intranet_document', doc_id=doc.id) }}" class="btn-edit">Editar</a>
+                            <form action="{{ url_for('admin.intranet_content.delete_intranet_document', doc_id=doc.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este documento?');" style="display:inline-block;">
+                                <button type="submit" class="btn-delete">Deletar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {{ render_pagination(pagination, 'admin.intranet_content.manage_intranet_documents') }}
+
         {% else %}
-        <p>Nenhum documento cadastrado.</p>
+        <p>Nenhum documento encontrado.</p>
         {% endif %}
     </div>
 </main>

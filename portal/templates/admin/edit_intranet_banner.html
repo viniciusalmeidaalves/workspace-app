@@ -1,49 +1,51 @@
 {% extends "base.html" %}
 
-{% block title %}Editar Banner da Intranet{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block page_content %}
 {% include 'admin/_admin_header.html' %}
 
-<main class="admin-container admin-content">
-    <div class="admin-form-container">
-        <h2>Editar Banner: {{ banner.title or 'Sem Título' }}</h2>
-<<<<<<< HEAD
-        {# ATUALIZADO: Prefixo 'admin' na action implícita #}
-=======
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
-        <form method="POST" enctype="multipart/form-data">
-            <div class="input-group">
-                <label for="title">Título do Banner:</label>
-                <input type="text" id="title" name="title" value="{{ banner.title or '' }}">
+<main class="admin-container">
+    <div class="admin-content">
+        <h1>{{ title }}</h1>
+        {% include 'messages_errors.html' %}
+        <form method="POST" action="{{ url_for('admin.intranet_content.edit_intranet_banner', banner_id=banner.id) }}" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.title.label }}
+                {{ form.title(class="form-control") }}
+                {% for error in form.title.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
             </div>
-            <div class="input-group">
-                <label for="link_url">URL de Destino:</label>
-                <input type="url" id="link_url" name="link_url" value="{{ banner.link_url or '' }}">
+            <div class="form-group">
+                {{ form.link_url.label }}
+                {{ form.link_url(class="form-control") }}
+                {% for error in form.link_url.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
             </div>
-<<<<<<< HEAD
-            <div class="input-group">
-=======
-             <div class="input-group">
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
-                <label for="order">Ordem de Exibição:</label>
-                <input type="number" id="order" name="order" value="{{ banner.order }}">
+            <div class="form-group">
+                {{ form.order.label }}
+                {{ form.order(class="form-control") }}
+                {% for error in form.order.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
             </div>
-            <div class="input-group">
-                <label>Imagem Atual:</label>
-                <img src="{{ url_for('static', filename=banner.image_path) }}" alt="Banner Atual" width="200">
+            <div class="form-group">
+                {{ form.banner_file.label }}
+                {{ form.banner_file(class="form-control-file") }}
+                {% if banner %}
+                    <p>Imagem atual: <img src="{{ url_for('static', filename=banner.image_path) }}" alt="Banner atual" style="max-width: 200px; height: auto;"></p>
+                {% endif %}
+                {% for error in form.banner_file.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
             </div>
-            <div class="input-group">
-                <label for="banner_file">Substituir Imagem (Opcional):</label>
-                <input type="file" id="banner_file" name="banner_file" accept="image/*">
+            <div class="form-actions">
+                {{ form.submit(class="btn btn-primary") }}
+                <a href="{{ url_for('admin.intranet_content.manage_intranet_banners') }}" class="btn btn-secondary">Cancelar</a>
             </div>
-            <button type="submit">Atualizar Banner</button>
-<<<<<<< HEAD
-            {# ATUALIZADO: Prefixo 'admin' #}
-            <a href="{{ url_for('admin.manage_intranet_banners') }}" class="btn-secondary" style="text-decoration: none; margin-left: 10px;">Voltar</a>
-=======
-            <a href="{{ url_for('main.manage_intranet_banners') }}" class="btn-secondary" style="text-decoration: none; margin-left: 10px;">Voltar</a>
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
         </form>
     </div>
 </main>

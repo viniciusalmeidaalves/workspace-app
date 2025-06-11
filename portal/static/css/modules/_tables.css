@@ -1,0 +1,43 @@
+/* --- Estilos para Tabelas do Admin --- */
+
+/* Contêiner da Tabela */
+.admin-table-container {
+    overflow-x: auto; /* Adiciona rolagem horizontal em telas pequenas */
+    background-color: var(--background-white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.admin-table thead th {
+    background-color: #f9fafb;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f4f7f6;
+}
+
+.admin-table .actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}

@@ -2,6 +2,11 @@
 
 <header class="workspace-header admin-header-custom"> 
     <div class="logo">Painel Admin</div>
+    {# BARRA DE BUSCA AQUI, SE VOCÊ QUISER ELA NO PAINEL ADMIN #}
+    <form action="{{ url_for('main.search') }}" method="GET" class="header-search-form">
+        <input type="text" name="q" placeholder="Buscar no portal..." value="{{ request.args.get('q', '') }}">
+        <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
     <div class="user-info">
         <a href="{{ url_for('main.dashboard') }}" class="dashboard-link">
             <i class="fas fa-th-large"></i> Dashboard
@@ -9,22 +14,24 @@
         <a href="{{ url_for('main.intranet') }}" class="intranet-link"> 
             <i class="fas fa-building"></i> Intranet
         </a>
-<<<<<<< HEAD
-        {# ATUALIZADO: Prefixo 'admin' #}
-        <a href="{{ url_for('admin.manage_users') }}">Gerenciar Usuários</a>
-        <a href="{{ url_for('admin.manage_applications') }}">Gerenciar Aplicações</a>
-        {# NOVOS LINKS PARA GERENCIAMENTO DA INTRANET #}
-        <a href="{{ url_for('admin.manage_intranet_links') }}">Gerenciar Links</a>
-        <a href="{{ url_for('admin.manage_intranet_documents') }}">Gerenciar Docs</a>
-=======
-        <a href="{{ url_for('main.manage_users') }}">Gerenciar Usuários</a>
-        <a href="{{ url_for('main.manage_applications') }}">Gerenciar Aplicações</a>
-        {# NOVOS LINKS PARA GERENCIAMENTO DA INTRANET #}
-        <a href="{{ url_for('main.manage_intranet_links') }}">Gerenciar Links</a>
-        <a href="{{ url_for('main.manage_intranet_documents') }}">Gerenciar Docs</a>
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
+
+        {# REMOVIDO: Links de gerenciamento individuais foram removidos daqui. O acesso é via admin_dashboard #}
+
         <a href="{{ url_for('main.logout') }}">
             <i class="fas fa-sign-out-alt"></i> Sair
         </a>
     </div>
 </header>
+{# Mensagens flash agora aparecem após o cabeçalho #}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                    <button type="button" class="close-alert" aria-label="Fechar">&times;</button> 
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}

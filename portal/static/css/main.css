@@ -1,0 +1,17 @@
+/* --- main.css: Arquivo principal de estilos --- */
+@import url('./modules/_variables.css');
+@import url('./modules/_base.css');
+@import url('./modules/_login_register.css');
+@import url('./modules/_header_global.css');
+@import url('./modules/_dashboard.css');
+@import url('./modules/_admin.css');
+@import url('./modules/_intranet.css');
+@import url('./modules/_messages_errors.css');
+@import url('./modules/_pagination.css');
+@import url('./modules/_footer.css');
+@import url('./modules/_responsive.css');
+@import url('./modules/_utilities.css');
+
+/* ADICIONE ESTAS DUAS LINHAS: */
+@import url('./modules/_forms.css');
+@import url('./modules/_tables.css');

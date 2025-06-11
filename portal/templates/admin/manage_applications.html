@@ -1,117 +1,120 @@
 {% extends "base.html" %}
+{% from "macros/_pagination_macro.html" import render_pagination %}
 
-{% block title %}Gerenciar Aplicações{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block page_content %}
-<<<<<<< HEAD
-{# Importa o macro de paginação #}
-{% from 'macros/_pagination_macro.html' import render_pagination %}
+{% include 'admin/_admin_header.html' %}
 
-=======
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
-<div class="admin-container">
-    <header class="admin-header">
-        <h1>Gerenciar Aplicações</h1>
-        <nav>
-<<<<<<< HEAD
-            <a href="{{ url_for('admin.admin_dashboard') }}">Painel Admin</a>
-=======
-            <a href="{{ url_for('main.admin_dashboard') }}">Painel Admin</a>
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
-            <a href="{{ url_for('main.dashboard') }}">Voltar para o Dashboard</a>
-        </nav>
-    </header>
-    <main class="admin-content">
-        <div class="admin-form-container">
-            <h2>Cadastrar Nova Aplicação</h2>
-<<<<<<< HEAD
-            <form method="POST" action="{{ url_for('admin.manage_applications') }}" enctype="multipart/form-data">
-=======
-            <form method="POST" enctype="multipart/form-data">
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
-                <input type="text" name="name" placeholder="Nome da Aplicação" required>
-                <input type="url" name="link" placeholder="Link da Aplicação" required>
-                
-                <hr>
-                <p style="text-align:center; margin: 0; color: #555;"><strong>Selecione um Ícone:</strong></p>
-                <hr>
+<main class="admin-container">
+    <div class="admin-content">
+        <h1>{{ title }}</h1>
 
-                <div class="icon-input-group">
-                    <input type="text" name="icon_class" id="icon_class" placeholder="Ou digite a classe do ícone aqui">
-                    <button id="open-icon-picker" class="btn-choose-icon">Escolher da Lista</button>
+        {% include 'messages_errors.html' %}
+
+        <div class="filter-and-add">
+            <form method="GET" action="{{ url_for('admin.applications.manage_applications') }}" class="filter-form">
+                <input type="text" name="search" placeholder="Buscar aplicação..." value="{{ request.args.get('search', '') }}">
+                <button type="submit" class="btn-filter">Buscar</button>
+            </form>
+            <a href="#" class="btn-add" onclick="document.getElementById('addApplicationForm').style.display = 'block'; return false;">Adicionar Nova Aplicação</a>
+        </div>
+
+        <div id="addApplicationForm" class="admin-form-container" style="display: none; margin-bottom: 30px;">
+            <h2>Adicionar Nova Aplicação</h2>
+            <form method="POST" action="{{ url_for('admin.applications.manage_applications') }}" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.name.label }}
+                    {{ form.name(class="form-control") }}
+                    {% for error in form.name.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
                 </div>
-                
-                <label for="icon_file">Ou faça upload de uma imagem (PNG, JPG, SVG)</label>
-                <input type="file" name="icon_file" id="icon_file" accept="image/*">
-                
-                <button type="submit">Cadastrar</button>
+                <div class="form-group">
+                    {{ form.link.label }}
+                    {{ form.link(class="form-control") }}
+                    {% for error in form.link.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group icon-input-group">
+                    {{ form.icon_class.label }}
+                    {{ form.icon_class(class="form-control", placeholder="Ex: fas fa-home ou fab fa-windows") }}
+                    <button type="button" id="open-icon-picker" class="btn-choose-icon">Escolher Ícone</button>
+                    {% for error in form.icon_class.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label for="icon_file">Ou Enviar Ícone (PNG, JPG, SVG, GIF)</label>
+                    <input type="file" name="icon_file" id="icon_file" class="form-control-file">
+                </div>
+                <div class="form-actions">
+                    {{ form.submit(class="btn btn-primary") }}
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('addApplicationForm').style.display = 'none';">Cancelar</button>
+                </div>
             </form>
         </div>
 
+
+        {% if applications %}
         <div class="admin-table-container">
-            <h2>Aplicações Cadastradas</h2>
-            <table>
+            <table class="admin-table">
                 <thead>
                     <tr>
-                        <th>Ícone</th>
+                        <th>ID</th>
                         <th>Nome</th>
-                        <th>Link</th>
-                        <th>Ação</th>
+                        <th>URL</th>
+                        <th>Ícone</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for app in applications %}
+                    {% for app in applications %} 
                     <tr>
-<<<<<<< HEAD
+                        <td>{{ app.id }}</td>
+                        <td><a href="{{ app.link }}" target="_blank">{{ app.name }}</a></td>
+                        <td>{{ app.link }}</td>
                         <td>
                             {% if app.icon and ('.png' in app.icon or '.jpg' in app.icon or '.jpeg' in app.icon or '.svg' in app.icon or '.gif' in app.icon) %}
-                                <img src="{{ url_for('static', filename=app.icon) }}" alt="{{ app.name }} Icon" class="app-icon-image" style="width: 30px; height: 30px;">
+                                <img src="{{ url_for('static', filename=app.icon) }}" alt="Ícone" style="max-width: 30px; max-height: 30px;">
                             {% else %}
-                                <i class="{{ app.icon | default('fas fa-question-circle') }}"></i>
+                                <i class="{{ app.icon }}"></i>
                             {% endif %}
                         </td>
-                        <td>{{ app.name }}</td>
-                        <td>{{ app.link }}</td>
                         <td class="actions">
-                            <form action="{{ url_for('admin.delete_application', app_id=app.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar?');">
-=======
-                        <td><i class="{{ app.icon }}"></i></td>
-                        <td>{{ app.name }}</td>
-                        <td>{{ app.link }}</td>
-                        <td>
-                            <form action="{{ url_for('main.delete_application', app_id=app.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar?');">
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
+                            <a href="{{ url_for('admin.applications.edit_application', app_id=app.id) }}" class="btn-edit">Editar</a>
+                            <form action="{{ url_for('admin.applications.delete_application', app_id=app.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar esta aplicação?');" style="display:inline-block;">
                                 <button type="submit" class="btn-delete">Deletar</button>
                             </form>
                         </td>
                     </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="4">Nenhuma aplicação cadastrada.</td>
-                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
-<<<<<<< HEAD
-
-            {# CHAMA O MACRO DE PAGINAÇÃO #}
-            {{ render_pagination(pagination, 'admin.manage_applications') }}
-
-=======
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
         </div>
-    </main>
-</div>
+
+        {{ render_pagination(applications_pagination, 'admin.applications.manage_applications') }}
+
+        {% else %}
+        <p>Nenhuma aplicação encontrada.</p>
+        {% endif %}
+    </div>
+</main>
 
 <div id="icon-modal" class="icon-modal">
     <div class="icon-modal-content">
         <span class="icon-modal-close">&times;</span>
-        <h2>Selecione um Ícone</h2>
-        <input type="search" id="icon-search" placeholder="Buscar ícone pelo nome...">
+        <h2>Escolher Ícone</h2>
+        <input type="text" id="icon-search" placeholder="Buscar ícone...">
         <div id="icon-picker-grid" class="icon-picker-grid">
             </div>
     </div>
 </div>
+{% endblock %}
 
-<script src="{{ url_for('static', filename='js/icon-picker.js') }}"></script>
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/icon-picker.js') }}"></script>
 {% endblock %}

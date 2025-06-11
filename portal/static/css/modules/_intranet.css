@@ -1,0 +1,62 @@
+/* --- _intranet.css: Estilos da Intranet --- */
+.intranet-container {
+    display: grid;
+    /*grid-template-columns: 2fr 1fr;*/
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); /* Garante que as colunas possam encolher */
+    gap: 30px;
+    align-items: start;
+}
+
+.intranet-main-content {
+    grid-column: 1 / 2;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.intranet-sidebar {
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.banner-slider {
+    width: 100%;
+    height: 350px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    background-color: #f0f0f0;
+}
+
+.banner-slider .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.swiper-button-next, .swiper-button-prev { color: var(--cor-primaria) !important; }
+.swiper-pagination-bullet-active { background: var(--cor-primaria) !important; }
+
+.widget-card {
+    background-color: var(--background-white);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    padding: 25px;
+}
+
+.widget-card h3 {
+    color: var(--cor-primaria);
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.fc .fc-toolbar-title { color: var(--cor-primaria); font-size: 1.5em; }
+.fc .fc-button-primary { background-color: var(--cor-primaria); border-color: var(--cor-primaria); }
+.fc .fc-button-primary:hover { background-color: var(--cor-hover-botao); border-color: var(--cor-hover-botao); }
+.fc .fc-day-today { background: #f0ebf9 !important; }

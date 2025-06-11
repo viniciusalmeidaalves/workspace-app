@@ -1,0 +1,64 @@
+/* --- _messages_errors.css: Estilos das Mensagens Flash e Páginas de Erro --- */
+.flash-messages {
+    max-width: 1400px;
+    margin: 0 auto; /* Remove margin-top: 20px, posicionado dinamicamente */
+    padding: 15px 30px 0; /* Adiciona padding-top para espaçamento */
+    box-sizing: border-box;
+    position: relative;
+    z-index: 99; /* Abaixo do cabeçalho */
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.alert-success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+.alert-danger { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+.alert-warning { color: #856404; background-color: #fff3cd; border-color: #ffeeba; }
+.alert-info { color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb; }
+
+.close-alert {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    font-weight: bold;
+    line-height: 1;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.7;
+    padding: 0 5px;
+    transition: opacity 0.2s ease;
+}
+.close-alert:hover {
+    opacity: 1;
+}
+
+/* Estilos para as páginas de erro (404, 500) */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.btn-primary-error {
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+.btn-primary-error:hover {
+    background-color: var(--cor-hover-botao);
+}

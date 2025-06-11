@@ -3,55 +3,33 @@
 {% block title %}Painel Admin{% endblock %}
 
 {% block page_content %}
-{% include 'admin/_admin_header.html' %}
+{% include 'admin/_admin_header.html' %} {# Este include ainda usa o caminho relativo padrão #}
 
 <main class="admin-container">
     <div class="admin-menu">
-<<<<<<< HEAD
-        {# ATUALIZADO: Prefixo 'admin' #}
-        <a href="{{ url_for('admin.manage_users') }}" class="admin-menu-item">
+        <a href="{{ url_for('admin.users.manage_users') }}" class="admin-menu-item"> {# ATUALIZADO #}
             <i class="fas fa-users"></i>
             <span>Gerenciar Usuários</span>
         </a>
-        {# ATUALIZADO: Prefixo 'admin' #}
-        <a href="{{ url_for('admin.manage_applications') }}" class="admin-menu-item">
+        <a href="{{ url_for('admin.applications.manage_applications') }}" class="admin-menu-item"> {# ATUALIZADO #}
             <i class="fas fa-boxes"></i>
             <span>Gerenciar Aplicações</span>
         </a>
-        {# ATUALIZADO: Prefixo 'admin' #}
-        <a href="{{ url_for('admin.manage_intranet_links') }}" class="admin-menu-item">
+        <a href="{{ url_for('admin.intranet_content.manage_intranet_links') }}" class="admin-menu-item"> {# ATUALIZADO #}
             <i class="fas fa-link"></i>
             <span>Gerenciar Links da Intranet</span>
         </a>
-        {# ATUALIZADO: Prefixo 'admin' #}
-        <a href="{{ url_for('admin.manage_intranet_documents') }}" class="admin-menu-item">
+        <a href="{{ url_for('admin.intranet_content.manage_intranet_documents') }}" class="admin-menu-item"> {# ATUALIZADO #}
             <i class="fas fa-file-alt"></i>
             <span>Gerenciar Documentos da Intranet</span>
         </a>
-        {# ATUALIZADO: Prefixo 'admin' #}
-        <a href="{{ url_for('admin.manage_intranet_banners') }}" class="admin-menu-item">
-=======
-        <a href="{{ url_for('main.manage_users') }}" class="admin-menu-item">
-            <i class="fas fa-users"></i>
-            <span>Gerenciar Usuários</span>
-        </a>
-        <a href="{{ url_for('main.manage_applications') }}" class="admin-menu-item">
-            <i class="fas fa-boxes"></i>
-            <span>Gerenciar Aplicações</span>
-        </a>
-        {# NOVOS CARDS PARA GERENCIAMENTO DA INTRANET #}
-        <a href="{{ url_for('main.manage_intranet_links') }}" class="admin-menu-item">
-            <i class="fas fa-link"></i>
-            <span>Gerenciar Links da Intranet</span>
-        </a>
-        <a href="{{ url_for('main.manage_intranet_documents') }}" class="admin-menu-item">
-            <i class="fas fa-file-alt"></i>
-            <span>Gerenciar Documentos da Intranet</span>
-        </a>
-        <a href="{{ url_for('main.manage_intranet_banners') }}" class="admin-menu-item">
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
+        <a href="{{ url_for('admin.intranet_content.manage_intranet_banners') }}" class="admin-menu-item"> {# ATUALIZADO #}
             <i class="fas fa-images"></i>
             <span>Gerenciar Banners da Intranet</span>
+        </a>
+        <a href="{{ url_for('admin.events.manage_events') }}" class="admin-menu-item"> {# ATUALIZADO #}
+            <i class="fas fa-calendar-alt"></i>
+            <span>Gerenciar Eventos</span>
         </a>
     </div>
 </main>

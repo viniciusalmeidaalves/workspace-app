@@ -1,0 +1,57 @@
+/* --- Estilos para Forms e Botões do Admin --- */
+
+/* Contêiner para filtros e botão de adicionar */
+.filter-and-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Formulário de busca/filtro */
+.filter-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filter-form input[type="text"] {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+/* Botão de Adicionar (verde) */
+.btn-add {
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white !important;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    background-color: #2ecc71;
+}
+.btn-add:hover {
+    background-color: #27ae60;
+}
+
+/* Botão de Filtrar (azul) */
+.btn-filter {
+    padding: 9px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    background-color: #3498db;
+}
+.btn-filter:hover {
+    background-color: #2980b9;
+}

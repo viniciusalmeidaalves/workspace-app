@@ -1,0 +1,79 @@
+/* --- _header_global.css: Estilos do Cabeçalho Global (Workspace) e Busca --- */
+.workspace-header {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-cabecalho);
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex-wrap: wrap;
+    min-height: 60px;
+    position: relative;
+    z-index: 100;
+}
+
+.workspace-header .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.workspace-header .header-search-form {
+    display: flex;
+    flex-grow: 1;
+    max-width: 400px;
+    margin: 0 auto; /* CENTRALIZA o formulário de busca */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.workspace-header .header-search-form input[type="text"] {
+    flex-grow: 1;
+    padding: 8px 15px;
+    border: none;
+    outline: none;
+    font-size: 0.9em;
+    background-color: transparent;
+    color: var(--cor-texto-cabecalho);
+}
+.workspace-header .header-search-form input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.workspace-header .header-search-form button {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--cor-texto-cabecalho);
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+.workspace-header .header-search-form button:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.workspace-header .user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+    margin-left: 20px; /* Espaço entre a busca e a info do usuário */
+}
+
+.workspace-header .user-info a {
+    color: var(--cor-texto-cabecalho);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.workspace-header .user-info a:hover {
+    color: #d1c4e9;
+}

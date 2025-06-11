@@ -1,45 +1,70 @@
 {% extends "base.html" %}
+{% from "macros/_pagination_macro.html" import render_pagination %}
 
-{% block title %}Gerenciar Usuários{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block page_content %}
-<div class="admin-container">
-    <header class="admin-header">
-        <h1>Gerenciar Usuários</h1>
-        <nav>
-<<<<<<< HEAD
-            {# ATUALIZADO: Prefixo 'admin' #}
-            <a href="{{ url_for('admin.admin_dashboard') }}">Painel Admin</a> 
-=======
-            <a href="{{ url_for('main.admin_dashboard') }}">Painel Admin</a>
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
-            <a href="{{ url_for('main.dashboard') }}">Voltar para o Dashboard</a>
-        </nav>
-    </header>
-    <main class="admin-content">
-        <div class="admin-form-container">
-            <h2>Cadastrar Novo Usuário</h2>
-            <form method="POST">
-                <input type="text" name="username" placeholder="Nome de usuário" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Senha" required>
-                <label>
-                    <input type="checkbox" name="is_admin">
-                    É Administrador?
-                </label>
-                <button type="submit">Cadastrar Usuário</button>
+{% include 'admin/_admin_header.html' %}
+
+<main class="admin-container">
+    <div class="admin-content">
+        <h1>{{ title }}</h1>
+
+        {% include 'messages_errors.html' %}
+
+        <div class="filter-and-add">
+            <form method="GET" action="{{ url_for('admin.users.manage_users') }}" class="filter-form">
+                <input type="text" name="search" placeholder="Buscar usuário..." value="{{ request.args.get('search', '') }}">
+                <button type="submit" class="btn-filter">Buscar</button>
+            </form>
+            <a href="#" class="btn-add" onclick="document.getElementById('addUserForm').style.display = 'block'; return false;">Adicionar Novo Usuário</a>
+        </div>
+
+        <div id="addUserForm" class="admin-form-container" style="display: none; margin-bottom: 30px;">
+            <h2>Adicionar Novo Usuário</h2>
+            <form method="POST" action="{{ url_for('admin.users.manage_users') }}">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.username.label }}
+                    {{ form.username(class="form-control", required=true) }}
+                    {% for error in form.username.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label }}
+                    {{ form.email(class="form-control", required=true) }}
+                    {% for error in form.email.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label }}
+                    {{ form.password(class="form-control", required=true) }}
+                    {% for error in form.password.errors %}
+                        <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" name="is_admin_new" id="is_admin_new" class="form-check-input">
+                    <label for="is_admin_new" class="form-check-label">É Administrador</label>
+                </div>
+                <div class="form-actions">
+                    {{ form.submit(class="btn btn-primary") }}
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('addUserForm').style.display = 'none';">Cancelar</button>
+                </div>
             </form>
         </div>
 
+        {% if users %}
         <div class="admin-table-container">
-            <h2>Usuários Cadastrados</h2>
-            <table>
+            <table class="admin-table">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Usuário</th>
+                        <th>Nome de Usuário</th>
                         <th>Email</th>
-                        <th>Admin?</th>
+                        <th>Administrador</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -49,29 +74,22 @@
                         <td>{{ user.id }}</td>
                         <td>{{ user.username }}</td>
                         <td>{{ user.email }}</td>
-                        <td>{% if user.is_admin %}Sim{% else %}Não{% endif %}</td>
+                        <td>{{ 'Sim' if user.is_admin else 'Não' }}</td>
                         <td class="actions">
-                            {% if not user.is_admin %}
-<<<<<<< HEAD
-                            {# ATUALIZADO: Prefixo 'admin' #}
-                            <a href="{{ url_for('admin.edit_user_permissions', user_id=user.id) }}" class="btn-edit">Permissões</a>
-                            {# ATUALIZADO: Prefixo 'admin' #}
-                            <form action="{{ url_for('admin.delete_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este usuário?');">
-=======
-                            <a href="{{ url_for('main.edit_user_permissions', user_id=user.id) }}" class="btn-edit">Permissões</a>
-                            <form action="{{ url_for('main.delete_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este usuário?');">
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
+                            <a href="{{ url_for('admin.users.edit_user_permissions', user_id=user.id) }}" class="btn-edit">Permissões</a>
+                            <form action="{{ url_for('admin.users.delete_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este usuário?');" style="display:inline-block;">
                                 <button type="submit" class="btn-delete">Deletar</button>
                             </form>
-                            {% else %}
-                            <span>-</span>
-                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-    </main>
-</div>
+        {{ render_pagination(pagination, 'admin.users.manage_users') }}
+        {% else %}
+        <p>Nenhum usuário encontrado.</p>
+        {% endif %}
+    </div>
+</main>
 {% endblock %}

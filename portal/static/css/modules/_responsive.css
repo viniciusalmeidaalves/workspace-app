@@ -1,0 +1,55 @@
+/* --- _responsive.css: Ajustes para Telas Menores (Mobile) --- */
+@media (max-width: 992px) {
+    .intranet-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .workspace-header {
+        flex-direction: column; /* Itens empilham verticalmente */
+        align-items: flex-start; /* Alinha ao topo/esquerda */
+        padding: 15px 20px; /* Mais padding para mobile */
+    }
+    .workspace-header .logo {
+        margin-bottom: 10px; /* Espaço abaixo do logo */
+    }
+    .workspace-header .header-search-form { /* Estilo da busca dentro do cabeçalho */
+        margin: 10px 0; /* Espaço para barra de busca */
+        width: 100%; /* Ocupa largura total */
+        max-width: none; /* Remove limite de largura */
+    }
+    .workspace-header .user-info {
+        margin-top: 10px; /* Espaço acima das informações do usuário */
+        margin-left: 0; /* Resetar margem */
+        width: 100%; /* Ocupa largura total */
+        justify-content: flex-start; /* Alinha à esquerda */
+        flex-wrap: wrap; /* Permite que os links do usuário quebrem linha */
+        gap: 15px; /* Reduz o espaçamento entre links */
+    }
+
+    /* Mensagens flash */
+    .flash-messages {
+        padding: 15px 15px 0; /* Ajusta padding para mobile */
+    }
+
+    /* Dropdown em mobile (se fosse mantido) */
+    .dropdown {
+        width: 100%;
+        display: block;
+        margin-bottom: 10px;
+    }
+    .dropbtn {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 10px 0;
+    }
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
+        border-top: 1px solid var(--border-color);
+        border-radius: 0;
+        width: 100%;
+    }
+    .dropdown-content a {
+        padding-left: 25px;
+    }
+}

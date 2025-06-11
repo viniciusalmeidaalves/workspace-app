@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Meu Portal{% endblock %}</title>
     
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{ version }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}?v={{ version }}">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    {# --- ADICIONE ESTE BLOCO DE ESTILO AQUI --- #}
     {% if config.cores %}
     <style>
         :root {
@@ -19,31 +18,12 @@
         }
     </style>
     {% endif %}
-    {# ----------------------------------------- #}
 
+    {# ADICIONE O BLOCO HEAD AQUI #}
     {% block head %}{% endblock %}
 
 </head>
 <body class="{% block body_class %}{% endblock %}">
-    {# Bloco de mensagens movido para cá, para aparecer em todas as páginas #}
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="flash-messages">
-                {% for category, message in messages %}
-<<<<<<< HEAD
-                    <div class="alert alert-{{ category }}">
-                        {{ message }}
-                        {# Botão de fechar opcional #}
-                        <button type="button" class="close-alert" aria-label="Fechar">&times;</button> 
-                    </div>
-=======
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
-
     {% block page_content %}
     {% endblock %}
 
@@ -53,41 +33,29 @@
         </a>
     </footer>
 
-<<<<<<< HEAD
     {% block scripts %}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Script para fechar mensagens flash automaticamente
             const flashMessages = document.querySelectorAll('.flash-messages .alert');
-
             flashMessages.forEach(message => {
-                // Adiciona um botão de fechar clicável
                 const closeButton = message.querySelector('.close-alert');
                 if (closeButton) {
                     closeButton.addEventListener('click', () => {
-                        message.remove(); // Remove a mensagem ao clicar no botão
+                        message.remove();
                     });
                 }
-
-                // Faz a mensagem desaparecer automaticamente após 5 segundos
                 setTimeout(() => {
-                    message.style.opacity = '0'; // Começa o fade out
-                    message.style.transition = 'opacity 0.5s ease-out'; // Define a transição
-                    // Remove o elemento do DOM após a transição
+                    message.style.opacity = '0';
+                    message.style.transition = 'opacity 0.5s ease-out';
                     message.addEventListener('transitionend', () => {
                         message.remove();
                     });
-                }, 5000); // 5000 milissegundos = 5 segundos
+                }, 5000);
             });
         });
     </script>
     {% endblock %}
 
-=======
-    {% block scripts %}{% endblock %}
-<<<<<<< HEAD
-
-=======
->>>>>>> 0d0de7605e5a8e82167ee3b5ee539735fda73264
->>>>>>> 89111cd5202a77305c75b47fa782be21cea0cd62
 </body>
 </html>
